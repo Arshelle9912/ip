@@ -15,6 +15,6 @@ public class SonOfAnton {
         System.out.println(LINE);
         Scanner sc = new Scanner(System.in);
         Echo echo = new Echo();
-        echo.echo(sc, LINE);
+        echo.start(sc, LINE);
     }
 }

@@ -1,16 +1,12 @@
 import java.util.Scanner;
 
 public class Echo {
-    public void echo(Scanner sc, String line) {
-        String input = sc.nextLine();
-        while (!input.equals("bye")) {
-            System.out.println(line);
-            System.out.println(" " + input);
-            System.out.println(line);
-            input = sc.nextLine();
+    public void start(Scanner sc, String line) {
+        IO io = new ScannerIO(sc);
+        EchoSession session = new EchoSession(line);
+        while (true) {
+            String read = io.readLine();
+            if (!session.handleCommand(read, io)) break;
         }
-        System.out.println(line);
-        System.out.println(" Bye. Hope to see you again soon!");
-        System.out.println(line);
     }
 }
