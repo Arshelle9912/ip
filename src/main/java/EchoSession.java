@@ -1,3 +1,5 @@
+import exceptions.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,37 +20,63 @@ public class EchoSession {
 
     public boolean handleCommand(String command, IO io) {
         io.writeLine(line);
-        String[] parts = command.split(" ");
-
-        if (CMD_BYE.equals(command)) {
-            bye(io);
-            return false;
-        }
-        if (CMD_LIST.equals(command)) {
-            list(io);
+        try {
+            command = command.trim();
+            String[] parts = command.split(" ");
+            command = command.trim();
+            if (CMD_BYE.equals(command)) {
+                bye(io);
+                return false;
+            }
+            if (CMD_LIST.equals(command)) {
+                list(io);
+                return true;
+            }
+            if (CMD_MARK.equals(parts[0])) {
+                if (parts.length < 2) throw new MissingArgumentException(parts[0]);
+                int num;
+                try {
+                    num = Integer.parseInt(parts[1]);
+                } catch (NumberFormatException e) {
+                    throw new InvalidIndexException(parts[1]);
+                }
+                if (num>tasks.size() || num<1) throw new InvalidIndexException(parts[1]);
+                mark(Integer.parseInt(parts[1]), io);
+                return true;
+            }
+            if (CMD_UNMARK.equals(parts[0])) {
+                if (parts.length < 2) throw new MissingArgumentException(parts[0]);
+                int num;
+                try {
+                    num = Integer.parseInt(parts[1]);
+                } catch (NumberFormatException e) {
+                    throw new InvalidIndexException(parts[1]);
+                }
+                if (num>tasks.size() || num<1) throw new InvalidIndexException(parts[1]);
+                unmark(Integer.parseInt(parts[1]), io);
+                return true;
+            }
+            if (CMD_TODO.equals(parts[0])) {
+                if (command.length() <= 4) throw new EmptyDescriptionException("ToDo");
+                todo(command, io);
+                return true;
+            }
+            if (CMD_EVENT.equals(parts[0])) {
+                if (parts.length < 2) throw new EmptyDescriptionException("Event");
+                event(command, io);
+                return true;
+            }
+            if (CMD_DEADLINE.equals(parts[0])) {
+                if (parts.length < 2) throw new EmptyDescriptionException("Deadline");
+                deadline(command, io);
+                return true;
+            }
+            throw new UnknownCommandException(command);
+        } catch (SonOfAntonException e) {
+            io.writeLine(" " + e.getMessage());
+            io.writeLine(line);
             return true;
         }
-        if (CMD_MARK.equals(parts[0])) {
-            mark(Integer.parseInt(parts[1]), io);
-            return true;
-        }
-        if (CMD_UNMARK.equals(parts[0])) {
-            unmark(Integer.parseInt(parts[1]), io);
-            return true;
-        }
-        if (CMD_TODO.equals(parts[0])) {
-            todo(command, io);
-            return true;
-        }
-        if (CMD_EVENT.equals(parts[0])) {
-            event(command, io);
-            return true;
-        }
-        if (CMD_DEADLINE.equals(parts[0])) {
-            deadline(command, io);
-            return true;
-        }
-        return true;
     }
 
     private void bye(IO io) {
@@ -94,9 +122,11 @@ public class EchoSession {
         io.writeLine(line);
     }
 
-    private void deadline(String command, IO io) {
+    private void deadline(String command, IO io) throws SonOfAntonException {
         String description = command.substring(9);
+        description = description.trim();
         String[] split = description.split("/by");
+        if (split.length < 2) throw new MissingArgumentException("Deadline");
         Deadline deadline = new Deadline(split[0].trim(), split[1].trim());
         tasks.add(deadline);
         io.writeLine(" Got it. I've added this task:");
@@ -105,10 +135,13 @@ public class EchoSession {
         io.writeLine(line);
     }
 
-    private void event(String command, IO io) {
+    private void event(String command, IO io) throws SonOfAntonException {
+        command = command.trim();
         String[] parts1 = command.split("/from");
+        if (parts1.length < 2) throw new MissingArgumentException("Event");
         String description = parts1[0].substring(6).trim();
         String[] parts2 = parts1[1].split("/to");
+        if (parts2.length < 2) throw new MissingArgumentException("Event");
         String from =  parts2[0].trim();
         String to = parts2[1].trim();
         Event event = new Event(description, from, to);
