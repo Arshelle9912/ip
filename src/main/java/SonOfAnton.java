@@ -3,7 +3,7 @@ import java.util.Scanner;
 public class SonOfAnton {
     private static final String LINE = "____________________________________________________________";
     public static void main(String[] args) {
-        String logo = "    _    _   _ _______  ____  _   _ \n"
+        String logo = "_    _   _ _______  ____  _   _ \n"
                 + "   / \\  | \\ | |__   __|/ __ \\| \\ | |\n"
                 + "  / _ \\ |  \\| |  | |  | |  | |  \\| |\n"
                 + " / ___ \\| |\\  |  | |  | |__| | |\\  |\n"
