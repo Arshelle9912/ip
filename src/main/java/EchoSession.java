@@ -11,6 +11,7 @@ public class EchoSession {
     private static final String CMD_TODO = "todo";
     private static final String CMD_EVENT = "event";
     private static final String CMD_DEADLINE = "deadline";
+    private static final String CMD_DELETE = "delete";
     private final List<Task> tasks = new ArrayList<>();
     private final String line;
 
@@ -41,7 +42,7 @@ public class EchoSession {
                     throw new InvalidIndexException(parts[1]);
                 }
                 if (num>tasks.size() || num<1) throw new InvalidIndexException(parts[1]);
-                mark(Integer.parseInt(parts[1]), io);
+                mark(num, io);
                 return true;
             }
             if (CMD_UNMARK.equals(parts[0])) {
@@ -53,7 +54,7 @@ public class EchoSession {
                     throw new InvalidIndexException(parts[1]);
                 }
                 if (num>tasks.size() || num<1) throw new InvalidIndexException(parts[1]);
-                unmark(Integer.parseInt(parts[1]), io);
+                unmark(num, io);
                 return true;
             }
             if (CMD_TODO.equals(parts[0])) {
@@ -69,6 +70,18 @@ public class EchoSession {
             if (CMD_DEADLINE.equals(parts[0])) {
                 if (parts.length < 2) throw new EmptyDescriptionException("Deadline");
                 deadline(command, io);
+                return true;
+            }
+            if (CMD_DELETE.equals(parts[0])) {
+                if (parts.length < 2) throw new MissingArgumentException("Delete");
+                int num;
+                try {
+                    num = Integer.parseInt(parts[1]);
+                } catch (NumberFormatException e) {
+                    throw new InvalidIndexException(parts[1]);
+                }
+                if (num>tasks.size() || num<1) throw new InvalidIndexException(parts[1]);
+                delete(num, io);
                 return true;
             }
             throw new UnknownCommandException(command);
@@ -148,6 +161,14 @@ public class EchoSession {
         tasks.add(event);
         io.writeLine(" Got it. I've added this task:");
         io.writeLine("   " + event.toString());
+        io.writeLine(" Now you have " + tasks.size() + " tasks in the list.");
+        io.writeLine(line);
+    }
+
+    private void delete(int num, IO io) {
+        Task removed = tasks.remove(num - 1);
+        io.writeLine(" Noted. I've removed this task:");
+        io.writeLine("   " + removed.toString());
         io.writeLine(" Now you have " + tasks.size() + " tasks in the list.");
         io.writeLine(line);
     }
