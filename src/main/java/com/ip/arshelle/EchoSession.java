@@ -1,5 +1,8 @@
-import exceptions.*;
+package com.ip.arshelle;
 
+import com.ip.arshelle.exceptions.*;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,11 +15,19 @@ public class EchoSession {
     private static final String CMD_EVENT = "event";
     private static final String CMD_DEADLINE = "deadline";
     private static final String CMD_DELETE = "delete";
-    private final List<Task> tasks = new ArrayList<>();
+    private final List<Task> tasks;
     private final String line;
-
+    private final Storage storage;
     public EchoSession(String line) {
         this.line = line;
+        this.storage = new Storage("./data/duke.txt");
+        List<Task> loaded = new ArrayList<>();
+        try {
+            loaded = storage.getTasks();
+        } catch (IOException e) {
+            System.out.println("Warning: could not load tasks: " + e.getMessage());
+        }
+        this.tasks = new ArrayList<>(loaded);
     }
 
     public boolean handleCommand(String command, IO io) {
@@ -95,6 +106,7 @@ public class EchoSession {
     private void bye(IO io) {
         io.writeLine(" Bye. Hope to see you again soon!");
         io.writeLine(line);
+        save();
     }
 
     private void list(IO io) {
@@ -105,17 +117,12 @@ public class EchoSession {
         io.writeLine(line);
     }
 
-    private void add(String command, IO io) {
-        tasks.add(new Task(command));
-        io.writeLine("added: " + command);
-        io.writeLine(line);
-    }
-
     private void mark(int number, IO io) {
         tasks.get(number - 1).mark();
         io.writeLine("Nice! I've marked this task as done:");
         io.writeLine(tasks.get(number - 1).toString());
         io.writeLine(line);
+        save();
     }
 
     private void unmark(int number, IO io) {
@@ -123,16 +130,19 @@ public class EchoSession {
         io.writeLine("OK, I've marked this task as not done yet:");
         io.writeLine(tasks.get(number - 1).toString());
         io.writeLine(line);
+        save();
     }
 
-    private void todo(String command, IO io) {
+    private void todo(String command, IO io) throws SonOfAntonException {
         String description = command.substring(5);
+        if (description.isEmpty()) throw new EmptyDescriptionException("ToDo");
         ToDo todo = new ToDo(description);
         tasks.add(todo);
         io.writeLine(" Got it. I've added this task:");
         io.writeLine("   " + todo.toString());
         io.writeLine(" Now you have " + tasks.size() + " tasks in the list.");
         io.writeLine(line);
+        save();
     }
 
     private void deadline(String command, IO io) throws SonOfAntonException {
@@ -146,6 +156,7 @@ public class EchoSession {
         io.writeLine("   " + deadline.toString());
         io.writeLine(" Now you have " + tasks.size() + " tasks in the list.");
         io.writeLine(line);
+        save();
     }
 
     private void event(String command, IO io) throws SonOfAntonException {
@@ -163,6 +174,7 @@ public class EchoSession {
         io.writeLine("   " + event.toString());
         io.writeLine(" Now you have " + tasks.size() + " tasks in the list.");
         io.writeLine(line);
+        save();
     }
 
     private void delete(int num, IO io) {
@@ -171,5 +183,14 @@ public class EchoSession {
         io.writeLine("   " + removed.toString());
         io.writeLine(" Now you have " + tasks.size() + " tasks in the list.");
         io.writeLine(line);
+        save();
+    }
+
+    private void save() {
+        try {
+            storage.saveTasks(new ArrayList<>(tasks));
+        } catch (IOException e) {
+            System.out.println("Warning: could not save tasks: " + e.getMessage());
+        }
     }
 }

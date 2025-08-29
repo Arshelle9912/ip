@@ -1,4 +1,4 @@
-package exceptions;
+package com.ip.arshelle.exceptions;
 
 public class EmptyDescriptionException extends SonOfAntonException {
     public EmptyDescriptionException(String cmd) {

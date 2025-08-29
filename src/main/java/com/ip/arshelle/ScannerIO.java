@@ -1,3 +1,5 @@
+package com.ip.arshelle;
+
 import java.util.Scanner;
 
 public class ScannerIO implements IO {

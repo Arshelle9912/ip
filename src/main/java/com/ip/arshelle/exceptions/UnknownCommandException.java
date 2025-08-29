@@ -1,4 +1,4 @@
-package exceptions;
+package com.ip.arshelle.exceptions;
 
 public class UnknownCommandException extends SonOfAntonException {
     public UnknownCommandException(String cmd) {
