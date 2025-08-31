@@ -1,4 +1,4 @@
-package com.ip.arshelle;
+package com.ip.arshelle.task;
 
 public abstract class Task {
     protected String description;

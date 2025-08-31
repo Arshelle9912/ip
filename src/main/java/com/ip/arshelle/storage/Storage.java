@@ -1,4 +1,9 @@
-package com.ip.arshelle;
+package com.ip.arshelle.storage;
+
+import com.ip.arshelle.task.Deadline;
+import com.ip.arshelle.task.Event;
+import com.ip.arshelle.task.Task;
+import com.ip.arshelle.task.ToDo;
 
 import java.io.File;
 import java.io.FileWriter;

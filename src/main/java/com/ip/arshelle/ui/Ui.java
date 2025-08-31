@@ -1,4 +1,7 @@
-package com.ip.arshelle;
+package com.ip.arshelle.ui;
+
+import com.ip.arshelle.task.Task;
+import com.ip.arshelle.task.TaskList;
 
 import java.util.Scanner;
 

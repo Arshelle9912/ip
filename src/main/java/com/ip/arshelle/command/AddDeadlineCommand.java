@@ -1,24 +1,26 @@
-package com.ip.arshelle;
+package com.ip.arshelle.command;
 
 import com.ip.arshelle.exceptions.SonOfAntonException;
+import com.ip.arshelle.storage.Storage;
+import com.ip.arshelle.task.Deadline;
+import com.ip.arshelle.task.TaskList;
+import com.ip.arshelle.ui.Ui;
 
-public class AddEventCommand implements Command {
+public class AddDeadlineCommand implements Command {
     private final String desc;
-    private final String fromRaw;
-    private final String toRaw;
+    private final String byRaw;
 
-    public AddEventCommand(String desc, String fromRaw, String toRaw) {
+    public AddDeadlineCommand(String desc, String byRaw) {
         this.desc = desc;
-        this.fromRaw = fromRaw;
-        this.toRaw = toRaw;
+        this.byRaw = byRaw;
     }
 
     @Override
     public boolean execute(TaskList tasks, Ui ui, Storage storage) throws SonOfAntonException {
-        Event event = Event.of(desc, fromRaw, toRaw);
-        tasks.add(event);
+        Deadline deadline = Deadline.of(desc, byRaw);
+        tasks.add(deadline);
         ui.showMessage(" Got it. I've added this task:");
-        ui.showMessage("   " + event.toString());
+        ui.showMessage("   " + deadline.toString());
         ui.showMessage(" Now you have " + tasks.size() + " tasks in the list.");
         ui.showLine();
         try { storage.saveTasks(tasks.asList()); } catch (Exception ignored) {}

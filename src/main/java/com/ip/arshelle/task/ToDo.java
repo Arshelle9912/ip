@@ -1,4 +1,4 @@
-package com.ip.arshelle;
+package com.ip.arshelle.task;
 
 public class ToDo extends Task {
     public ToDo(String description) {

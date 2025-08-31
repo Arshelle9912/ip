@@ -1,6 +1,6 @@
-package com.ip.arshelle;
+package com.ip.arshelle.app;
 
-import java.util.Scanner;
+import com.ip.arshelle.ui.Ui;
 
 public class Echo {
     public void start(Ui ui) {

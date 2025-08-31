@@ -1,6 +1,11 @@
-package com.ip.arshelle;
+package com.ip.arshelle.app;
 
+import com.ip.arshelle.command.Command;
 import com.ip.arshelle.exceptions.SonOfAntonException;
+import com.ip.arshelle.parser.Parser;
+import com.ip.arshelle.storage.Storage;
+import com.ip.arshelle.task.TaskList;
+import com.ip.arshelle.ui.Ui;
 
 import java.io.IOException;
 

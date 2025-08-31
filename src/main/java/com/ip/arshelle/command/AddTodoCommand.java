@@ -1,4 +1,9 @@
-package com.ip.arshelle;
+package com.ip.arshelle.command;
+
+import com.ip.arshelle.storage.Storage;
+import com.ip.arshelle.task.TaskList;
+import com.ip.arshelle.task.ToDo;
+import com.ip.arshelle.ui.Ui;
 
 public class AddTodoCommand implements Command {
     private final String desc;

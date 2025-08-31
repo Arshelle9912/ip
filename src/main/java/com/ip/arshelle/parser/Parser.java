@@ -1,5 +1,6 @@
-package com.ip.arshelle;
+package com.ip.arshelle.parser;
 
+import com.ip.arshelle.command.*;
 import com.ip.arshelle.exceptions.*;
 
 public class Parser {
