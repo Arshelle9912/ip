@@ -3,6 +3,9 @@ package com.ip.arshelle;
 import com.ip.arshelle.exceptions.*;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -150,7 +153,7 @@ public class EchoSession {
         description = description.trim();
         String[] split = description.split("/by");
         if (split.length < 2) throw new MissingArgumentException("Deadline");
-        Deadline deadline = new Deadline(split[0].trim(), split[1].trim());
+        Deadline deadline = Deadline.of(split[0].trim(), split[1].trim());
         tasks.add(deadline);
         io.writeLine(" Got it. I've added this task:");
         io.writeLine("   " + deadline.toString());
@@ -168,7 +171,7 @@ public class EchoSession {
         if (parts2.length < 2) throw new MissingArgumentException("Event");
         String from =  parts2[0].trim();
         String to = parts2[1].trim();
-        Event event = new Event(description, from, to);
+        Event event = Event.of(description, from, to);
         tasks.add(event);
         io.writeLine(" Got it. I've added this task:");
         io.writeLine("   " + event.toString());

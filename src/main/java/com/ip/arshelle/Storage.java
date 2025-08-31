@@ -56,7 +56,7 @@ public class Storage {
                         return null;
                     }
                     String by = parts[3];
-                    t = new Deadline(description, by);
+                    t = Deadline.of(description, by);
                     break;
                 case "E":
                     if (parts.length < 5) {
@@ -64,7 +64,7 @@ public class Storage {
                     }
                     String from = parts[3];
                     String to = parts[4];
-                    t = new Event(description, from, to);
+                    t = Event.of(description, from, to);
                     break;
             }
             if (t != null && isDone) {
