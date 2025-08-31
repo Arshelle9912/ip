@@ -11,12 +11,9 @@ public class SonOfAnton {
                 + " / ___ \\| |\\  |  | |  | |__| | |\\  |\n"
                 + "/_/   \\_\\_| \\_|  |_|   \\____/|_| \\_|\n";
 
-        System.out.println("Hello from Son of\n" + logo);
-        System.out.println(LINE);
-        System.out.println(" What can I do for you?");
-        System.out.println(LINE);
-        Scanner sc = new Scanner(System.in);
+        Ui ui = new Ui();
+        ui.showWelcome(logo);
         Echo echo = new Echo();
-        echo.start(sc, LINE);
+        echo.start(ui);
     }
 }

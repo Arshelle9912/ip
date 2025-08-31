@@ -3,12 +3,13 @@ package com.ip.arshelle;
 import java.util.Scanner;
 
 public class Echo {
-    public void start(Scanner sc, String line) {
-        IO io = new ScannerIO(sc);
-        EchoSession session = new EchoSession(line);
+    public void start(Ui ui) {
+        EchoSession session = new EchoSession(ui);
         while (true) {
-            String read = io.readLine();
-            if (!session.handleCommand(read, io)) break;
+            String input = ui.readCommand();
+            if (!session.handleCommand(input)) {
+                break;
+            }
         }
     }
 }
