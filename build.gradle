@@ -28,7 +28,7 @@ test {
 }
 
 application {
-    mainClass.set("seedu.duke.Duke")
+    mainClass.set("com.ip.arshelle.app.SonOfAnton")
 }
 
 shadowJar {
