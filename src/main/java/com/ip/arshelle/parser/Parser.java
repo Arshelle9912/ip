@@ -46,6 +46,14 @@ public class Parser {
                 if (p2.length < 2) throw new MissingArgumentException("Event");
                 return new AddEventCommand(desc, p2[0].trim(), p2[1].trim());
 
+            case "find": {
+                String rest = input.length() > 4 ? input.substring(4).trim() : "";
+                if (rest.isEmpty()) {
+                    throw new SonOfAntonException("The find command requires a keyword.");
+                }
+                return new FindCommand(rest);
+            }
+
             default:
                 throw new UnknownCommandException(s);
         }
