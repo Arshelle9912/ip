@@ -16,7 +16,9 @@ public class DeleteCommand implements Command {
      *
      * @param indexOneBased the 1-based index of the task to delete
      */
-    public DeleteCommand(int indexOneBased) { this.indexOneBased = indexOneBased; }
+    public DeleteCommand(int indexOneBased) {
+        this.indexOneBased = indexOneBased;
+    }
 
     /**
      * Executes the delete command by removing the specified task,
@@ -34,7 +36,11 @@ public class DeleteCommand implements Command {
         ui.showMessage("   " + removed.toString());
         ui.showMessage(" Now you have " + tasks.size() + " tasks in the list.");
         ui.showLine();
-        try { storage.saveTasks(tasks.asList()); } catch (Exception ignored) {}
+        try {
+            storage.saveTasks(tasks.asList());
+        } catch (Exception ignored) {
+            // ignore as saving is non-critical
+        }
         return true;
     }
 }

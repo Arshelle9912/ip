@@ -42,7 +42,11 @@ public class AddDeadlineCommand implements Command {
         ui.showMessage("   " + deadline.toString());
         ui.showMessage(" Now you have " + tasks.size() + " tasks in the list.");
         ui.showLine();
-        try { storage.saveTasks(tasks.asList()); } catch (Exception ignored) {}
+        try {
+            storage.saveTasks(tasks.asList());
+        } catch (Exception ignored) {
+            // ignore as saving is non-critical
+        }
         return true;
     }
 }

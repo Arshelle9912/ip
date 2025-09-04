@@ -24,7 +24,9 @@ public class ByeCommand implements Command {
         ui.showLine();
         try {
             storage.saveTasks(tasks.asList());
-        } catch (Exception ignored) {}
+        } catch (Exception ignored) {
+            // ignore as saving is non-critical
+        }
         return false;
     }
 
@@ -33,5 +35,7 @@ public class ByeCommand implements Command {
      *
      * @return {@code true}
      */
-    @Override public boolean isExit() { return true; }
+    @Override public boolean isExit() {
+        return true;
+    }
 }

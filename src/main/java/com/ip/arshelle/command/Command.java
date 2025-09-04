@@ -25,5 +25,7 @@ public interface Command {
      *
      * @return {@code true} if the application should exit, {@code false} otherwise
      */
-    default boolean isExit() { return false; }
+    default boolean isExit() {
+        return false;
+    }
 }

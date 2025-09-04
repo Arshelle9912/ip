@@ -15,7 +15,9 @@ public class MarkCommand implements Command {
      *
      * @param indexOneBased the 1-based index of the task to mark as done
      */
-    public MarkCommand(int indexOneBased) { this.indexOneBased = indexOneBased; }
+    public MarkCommand(int indexOneBased) {
+        this.indexOneBased = indexOneBased;
+    }
 
     /**
      * Executes the mark command by marking the specified task as done,
@@ -32,7 +34,11 @@ public class MarkCommand implements Command {
         ui.showMessage("Nice! I've marked this task as done:");
         ui.showMessage(tasks.get(indexOneBased - 1).toString());
         ui.showLine();
-        try { storage.saveTasks(tasks.asList()); } catch (Exception ignored) {}
+        try {
+            storage.saveTasks(tasks.asList());
+        } catch (Exception ignored) {
+            // ignore as saving is non-critical
+        }
         return true;
     }
 }

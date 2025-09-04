@@ -15,7 +15,9 @@ public class UnmarkCommand implements Command {
      *
      * @param indexOneBased the 1-based index of the task to unmark
      */
-    public UnmarkCommand(int indexOneBased) { this.indexOneBased = indexOneBased; }
+    public UnmarkCommand(int indexOneBased) {
+        this.indexOneBased = indexOneBased;
+    }
 
     /**
      * Executes the unmark command by marking the specified task as not done,
@@ -32,7 +34,11 @@ public class UnmarkCommand implements Command {
         ui.showMessage("OK, I've marked this task as not done yet:");
         ui.showMessage(tasks.get(indexOneBased - 1).toString());
         ui.showLine();
-        try { storage.saveTasks(tasks.asList()); } catch (Exception ignored) {}
+        try {
+            storage.saveTasks(tasks.asList());
+        } catch (Exception ignored) {
+            // ignore as saving is non-critical
+        }
         return true;
     }
 }

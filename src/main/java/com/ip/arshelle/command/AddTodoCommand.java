@@ -16,7 +16,9 @@ public class AddTodoCommand implements Command {
      *
      * @param desc the description of the todo task
      */
-    public AddTodoCommand(String desc) { this.desc = desc; }
+    public AddTodoCommand(String desc) {
+        this.desc = desc;
+    }
 
     /**
      * Executes the command by creating and adding a todo task,
@@ -35,7 +37,11 @@ public class AddTodoCommand implements Command {
         ui.showMessage("   " + todo.toString());
         ui.showMessage(" Now you have " + tasks.size() + " tasks in the list.");
         ui.showLine();
-        try { storage.saveTasks(tasks.asList()); } catch (Exception ignored) {}
+        try {
+            storage.saveTasks(tasks.asList());
+        } catch (Exception ignored) {
+            // ignore as saving is non-critical
+        }
         return true;
     }
 }
