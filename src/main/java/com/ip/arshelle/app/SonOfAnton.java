@@ -2,8 +2,16 @@ package com.ip.arshelle.app;
 
 import com.ip.arshelle.ui.Ui;
 
+/**
+ * Entry point of the SonOfAnton application.
+ * Initializes the UI, displays the welcome logo, and starts the echo loop.
+ */
 public class SonOfAnton {
-    private static final String LINE = "____________________________________________________________";
+    /**
+     * Launches the application.
+     *
+     * @param args command line arguments (not used)
+     */
     public static void main(String[] args) {
         String logo = "_    _   _ _______  ____  _   _ \n"
                 + "   / \\  | \\ | |__   __|/ __ \\| \\ | |\n"

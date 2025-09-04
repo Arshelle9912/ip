@@ -8,12 +8,20 @@ import com.ip.arshelle.task.TaskList;
 import com.ip.arshelle.ui.Ui;
 
 import java.io.IOException;
-
+/**
+ * Manages a user session for the echo application,
+ * including loading tasks, handling commands, and coordinating storage and UI.
+ */
 public class EchoSession {
     private final TaskList tasks;
     private final Ui ui;
     private final Storage storage;
 
+    /**
+     * Creates a new {@code EchoSession} with the given UI and loads tasks from storage.
+     *
+     * @param ui the user interface used to show messages and read input
+     */
     public EchoSession(Ui ui) {
         this.ui = ui;
         this.storage = new Storage("./data/duke.txt");
@@ -27,6 +35,13 @@ public class EchoSession {
         this.tasks = loaded;
     }
 
+    /**
+     * Parses and executes the given user command.
+     * Shows output via the UI and returns whether the session should continue running.
+     *
+     * @param input the raw user input string
+     * @return {@code true} if the session should continue, {@code false} to exit
+     */
     public boolean handleCommand(String input) {
         ui.showLine();
         try {
