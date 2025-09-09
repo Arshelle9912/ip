@@ -12,16 +12,10 @@ public class SonOfAnton {
      *
      * @param args command line arguments (not used)
      */
-    public static void main(String[] args) {
-        String logo = "_    _   _ _______  ____  _   _ \n"
-                + "   / \\  | \\ | |__   __|/ __ \\| \\ | |\n"
-                + "  / _ \\ |  \\| |  | |  | |  | |  \\| |\n"
-                + " / ___ \\| |\\  |  | |  | |__| | |\\  |\n"
-                + "/_/   \\_\\_| \\_|  |_|   \\____/|_| \\_|\n";
+    public void getResponse(String args) {
 
         Ui ui = new Ui();
-        ui.showWelcome(logo);
-        Echo echo = new Echo();
-        echo.start(ui);
+        EchoSession echoSession = new EchoSession(ui);
+        echoSession.handleCommand(args);
     }
 }

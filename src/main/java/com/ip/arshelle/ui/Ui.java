@@ -4,20 +4,36 @@ import com.ip.arshelle.task.Task;
 import com.ip.arshelle.task.TaskList;
 
 import java.util.Scanner;
+import java.util.function.Consumer;
 
 public class Ui {
     private static final String LINE = "____________________________________________________________";
+
     private final Scanner sc = new Scanner(System.in);
+    private final Consumer<String> sink;
+
+    public Ui() {
+        this(System.out::println);
+    }
+
+    public Ui(Consumer<String> sink) {
+        this.sink = (sink == null) ? System.out::println : sink;
+    }
+
+    private void out(String s) {
+        sink.accept(s);
+    }
 
     public void showWelcome(String asciiLogo) {
-        System.out.println("Hello from Son of\n" + asciiLogo);
+        out("Hello from Son of");
+        out(asciiLogo);
         showLine();
-        System.out.println(" What can I do for you?");
+        out(" What can I do for you?");
         showLine();
     }
 
     public void showLine() {
-        System.out.println(LINE);
+        out(LINE);
     }
 
     public String readCommand() {
@@ -25,43 +41,43 @@ public class Ui {
     }
 
     public void showError(String msg) {
-        System.out.println(" " + msg);
+        out(" " + msg);
         showLine();
     }
 
     public void showMessage(String msg) {
-        System.out.println(" " + msg);
+        out(" " + msg);
     }
 
     public void showList(TaskList tasks) {
-        System.out.println(" Here are the tasks in your list:");
+        out(" Here are the tasks in your list:");
         for (int i = 1; i <= tasks.size(); i++) {
-            System.out.println(" " + i + "." + tasks.get(i - 1));
+            out(" " + i + "." + tasks.get(i - 1));
         }
         showLine();
     }
 
     public void showAdded(Task t, int newSize) {
-        System.out.println(" Got it. I've added this task:");
-        System.out.println("   " + t);
-        System.out.println(" Now you have " + newSize + " tasks in the list.");
+        out(" Got it. I've added this task:");
+        out("   " + t);
+        out(" Now you have " + newSize + " tasks in the list.");
         showLine();
     }
 
     public void showRemoved(Task t, int newSize) {
-        System.out.println(" Noted. I've removed this task:");
-        System.out.println("   " + t);
-        System.out.println(" Now you have " + newSize + " tasks in the list.");
+        out(" Noted. I've removed this task:");
+        out("   " + t);
+        out(" Now you have " + newSize + " tasks in the list.");
         showLine();
     }
 
     public void showBye() {
-        System.out.println(" Bye. Hope to see you again soon!");
+        out(" Bye. Hope to see you again soon!");
         showLine();
     }
 
     public void showLoadingError() {
-        System.out.println(" Warning: could not load tasks. Starting with an empty list.");
+        out(" Warning: could not load tasks. Starting with an empty list.");
         showLine();
     }
 }
