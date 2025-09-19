@@ -30,6 +30,9 @@ public class UnmarkCommand implements Command {
      */
     @Override
     public boolean execute(TaskList tasks, Ui ui, Storage storage) {
+        assert indexOneBased > 0 : "index must be 1-based positive";
+        assert indexOneBased <= tasks.size()
+                : "index must not exceed current list size";
         tasks.unmark(indexOneBased);
         ui.showMessage("OK, I've marked this task as not done yet:");
         ui.showMessage(tasks.get(indexOneBased - 1).toString());

@@ -30,6 +30,9 @@ public class MarkCommand implements Command {
      */
     @Override
     public boolean execute(TaskList tasks, Ui ui, Storage storage) {
+        assert indexOneBased > 0 : "index must be 1-based positive";
+        assert indexOneBased <= tasks.size()
+                : "index must not exceed current list size";
         tasks.mark(indexOneBased);
         ui.showMessage("Nice! I've marked this task as done:");
         ui.showMessage(tasks.get(indexOneBased - 1).toString());

@@ -31,6 +31,9 @@ public class DeleteCommand implements Command {
      */
     @Override
     public boolean execute(TaskList tasks, Ui ui, Storage storage) {
+        assert indexOneBased > 0 : "index must be positive";
+        assert indexOneBased <= tasks.size()
+                : "index must be within current list size";
         Task removed = tasks.delete(indexOneBased);
         ui.showMessage(" Noted. I've removed this task:");
         ui.showMessage("   " + removed.toString());
