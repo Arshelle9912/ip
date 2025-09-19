@@ -8,31 +8,35 @@ repositories {
     mavenCentral()
 }
 
-dependencies {
-    testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.10.0'
-    testRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: '5.10.0'
-    String javaFxVersion = '17.0.7'
+def javaFxVersion = '17.0.7'
+def fxModules = ['base', 'controls', 'fxml', 'graphics']
+// NOTE: OpenJFX 17.0.7 has NO win-aarch64. Do NOT include it.
+def fxPlatforms = [
+        'win', 'mac', 'linux',            // x64
+        'mac-aarch64', 'linux-aarch64'    // ARM variants available on 17.0.7
+]
 
-    implementation group: 'org.openjfx', name: 'javafx-base', version: javaFxVersion, classifier: 'win'
-    implementation group: 'org.openjfx', name: 'javafx-base', version: javaFxVersion, classifier: 'mac'
-    implementation group: 'org.openjfx', name: 'javafx-base', version: javaFxVersion, classifier: 'linux'
-    implementation group: 'org.openjfx', name: 'javafx-controls', version: javaFxVersion, classifier: 'win'
-    implementation group: 'org.openjfx', name: 'javafx-controls', version: javaFxVersion, classifier: 'mac'
-    implementation group: 'org.openjfx', name: 'javafx-controls', version: javaFxVersion, classifier: 'linux'
-    implementation group: 'org.openjfx', name: 'javafx-fxml', version: javaFxVersion, classifier: 'win'
-    implementation group: 'org.openjfx', name: 'javafx-fxml', version: javaFxVersion, classifier: 'mac'
-    implementation group: 'org.openjfx', name: 'javafx-fxml', version: javaFxVersion, classifier: 'linux'
-    implementation group: 'org.openjfx', name: 'javafx-graphics', version: javaFxVersion, classifier: 'win'
-    implementation group: 'org.openjfx', name: 'javafx-graphics', version: javaFxVersion, classifier: 'mac'
-    implementation group: 'org.openjfx', name: 'javafx-graphics', version: javaFxVersion, classifier: 'linux'
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.10.0'
+    testRuntimeOnly  'org.junit.jupiter:junit-jupiter-engine:5.10.0'
+
+    fxModules.each { m ->
+        fxPlatforms.each { p ->
+            implementation "org.openjfx:javafx-${m}:${javaFxVersion}:${p}"
+        }
+    }
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17) // match JavaFX 17
+    }
 }
 
 test {
     useJUnitPlatform()
-
     testLogging {
         events "passed", "skipped", "failed"
-
         showExceptions true
         exceptionFormat "full"
         showCauses true
@@ -42,14 +46,18 @@ test {
 }
 
 application {
-    mainClass.set("com.ip.arshelle.app.Launcher")
+    mainClass = 'com.ip.arshelle.app.Launcher' // <- your launcher
+}
+
+tasks.withType(JavaExec).configureEach {
+    standardInput = System.in
 }
 
 shadowJar {
-    archiveBaseName = "duke"
-    archiveClassifier = null
-}
-
-run{
-    standardInput = System.in
+    archiveBaseName.set("duke")
+    archiveClassifier.set(null)
+    mergeServiceFiles()
+    manifest {
+        attributes 'Main-Class': application.mainClass.get()
+    }
 }
