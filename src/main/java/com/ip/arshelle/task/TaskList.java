@@ -23,4 +23,12 @@ public class TaskList {
     public void unmark(int oneBasedIndex) { tasks.get(oneBasedIndex - 1).unmark(); }
 
     public List<Task> asList() { return tasks; }
+
+    public List<String> toIndexedLines() {
+        List<String> out = new ArrayList<>();
+        for (int i = 1; i <= size(); i++) {
+            out.add(" " + i + "." + get(i - 1));
+        }
+        return out;
+    }
 }

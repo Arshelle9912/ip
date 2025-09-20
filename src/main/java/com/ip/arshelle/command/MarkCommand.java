@@ -34,11 +34,7 @@ public class MarkCommand implements Command {
         ui.showMessage("Nice! I've marked this task as done:");
         ui.showMessage(tasks.get(indexOneBased - 1).toString());
         ui.showLine();
-        try {
-            storage.saveTasks(tasks.asList());
-        } catch (Exception ignored) {
-            // ignore as saving is non-critical
-        }
+        CommandUtils.saveQuietly(storage, tasks);
         return true;
     }
 }

@@ -16,6 +16,13 @@ import javafx.stage.Stage;
 import java.io.InputStream;
 
 public class Main extends Application {
+    private static final double APP_W = 400.0;
+    private static final double APP_H = 570.0;
+    private static final double SCROLL_BOTTOM = 50.0;
+    private static final double GAP = 10.0;
+    private static final double INPUT_W = 310.0;
+    private static final double SEND_W = 70.0;
+
     private ScrollPane scrollPane;
     private VBox dialogContainer;
     private TextField userInput;
@@ -29,57 +36,78 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) {
+        AnchorPane root = createRoot();
+        configureScrollPane(root);
+        configureInputRow(root);
+        bindAutoScroll();
+
+        loadImages();
+        Ui guiUi = initUiAndSession();
+
+        scene = new Scene(root, APP_W, APP_H);
+        stage.setTitle("SonOfAnton");
+        stage.setScene(scene);
+        stage.show();
+
+        showWelcome(guiUi);
+    }
+
+    private AnchorPane createRoot() {
         scrollPane = new ScrollPane();
         dialogContainer = new VBox(8);
         scrollPane.setContent(dialogContainer);
 
         userInput = new TextField();
+        userInput.setPromptText("Type a command…");
         sendButton = new Button("Send");
 
         sendButton.setOnAction(e -> handleUserInput());
         userInput.setOnAction(e -> handleUserInput());
 
-        AnchorPane mainLayout = new AnchorPane();
-        mainLayout.getChildren().addAll(scrollPane, userInput, sendButton);
+        AnchorPane root = new AnchorPane();
+        root.getChildren().addAll(scrollPane, userInput, sendButton);
+        return root;
+    }
 
+    private void configureScrollPane(AnchorPane root) {
         scrollPane.setFitToWidth(true);
-        scrollPane.setPrefSize(400, 520);
+        scrollPane.setPrefSize(APP_W, APP_H - 50);
         AnchorPane.setTopAnchor(scrollPane, 1.0);
         AnchorPane.setLeftAnchor(scrollPane, 1.0);
         AnchorPane.setRightAnchor(scrollPane, 1.0);
-        AnchorPane.setBottomAnchor(scrollPane, 50.0);
+        AnchorPane.setBottomAnchor(scrollPane, SCROLL_BOTTOM);
+    }
 
-        userInput.setPromptText("Type a command…");
-        userInput.setPrefWidth(310.0);
-        AnchorPane.setBottomAnchor(userInput, 10.0);
-        AnchorPane.setLeftAnchor(userInput, 10.0);
+    private void configureInputRow(AnchorPane root) {
+        userInput.setPrefWidth(INPUT_W);
+        AnchorPane.setBottomAnchor(userInput, GAP);
+        AnchorPane.setLeftAnchor(userInput, GAP);
 
-        sendButton.setPrefWidth(70.0);
-        AnchorPane.setBottomAnchor(sendButton, 10.0);
-        AnchorPane.setRightAnchor(sendButton, 10.0);
+        sendButton.setPrefWidth(SEND_W);
+        AnchorPane.setBottomAnchor(sendButton, GAP);
+        AnchorPane.setRightAnchor(sendButton, GAP);
+    }
 
-        scene = new Scene(mainLayout, 400, 570);
-        stage.setTitle("SonOfAnton");
-        stage.setScene(scene);
-        stage.show();
-
+    private void bindAutoScroll() {
         scrollPane.vvalueProperty().bind(dialogContainer.heightProperty());
+    }
 
+    private void loadImages() {
         userImage = loadImageSafe("/images/user.png");
         botImage  = loadImageSafe("/images/bot.png");
+    }
 
+    private Ui initUiAndSession() {
         Ui guiUi = new Ui((String line) -> {
             if (line == null || line.isEmpty()) return;
-
             var botBubble = DialogBox.getDukeDialog(line, botImage);
-
-            Platform.runLater(() ->
-                    dialogContainer.getChildren().add(botBubble)
-            );
+            Platform.runLater(() -> dialogContainer.getChildren().add(botBubble));
         });
-
         session = new EchoSession(guiUi);
+        return guiUi;
+    }
 
+    private void showWelcome(Ui guiUi) {
         String logo = "_    _   _ _______  ____  _   _ \n"
                 + "   / \\  | \\ | |__   __|/ __ \\| \\ | |\n"
                 + "  / _ \\ |  \\| |  | |  | |  | |  \\| |\n"
