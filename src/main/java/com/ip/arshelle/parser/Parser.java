@@ -54,6 +54,9 @@ public class Parser {
                 return new FindCommand(rest);
             }
 
+            case "help":
+                return new HelpCommand();
+
             default:
                 throw new UnknownCommandException(s);
         }
