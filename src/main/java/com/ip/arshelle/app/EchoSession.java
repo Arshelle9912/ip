@@ -16,6 +16,7 @@ public class EchoSession {
     private final TaskList tasks;
     private final Ui ui;
     private final Storage storage;
+    private static final String DATA_FILE_PATH = "./data/duke.txt";
 
     /**
      * Creates a new {@code EchoSession} with the given UI and loads tasks from storage.
@@ -24,7 +25,7 @@ public class EchoSession {
      */
     public EchoSession(Ui ui) {
         this.ui = ui;
-        this.storage = new Storage("./data/duke.txt");
+        this.storage = new Storage(DATA_FILE_PATH);
         TaskList loaded;
         try {
             loaded = new TaskList(storage.getTasks());
