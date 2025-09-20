@@ -1,30 +1,25 @@
-# Duke User Guide
+# SonOfAnton User Guide
+SonOfAnton is a task manager chatbot built with Java and JavaFX.  
+It helps users keep track of tasks via a simple graphical interface.
 
-// Update the title above to match the actual product name
-
-// Product screenshot goes here
-
-// Product intro goes here
 
 ## Adding deadlines
 
-// Describe the action and its outcome.
-
-// Give examples of usage
 
 Example: `keyword (optional arguments)`
 
-// A description of the expected outcome goes here
 
 ```
 expected output
 ```
 
-## Feature ABC
+## Features
+- Add ToDo, Deadline, and Event tasks
+- Mark/unmark tasks as done
+- Delete tasks
+- Find tasks by keyword
+- View all tasks in a scrollable GUI
+- Save tasks to disk automatically
 
-// Feature details
-
-
-## Feature XYZ
-
-// Feature details
+# SonOfAnton
+[View the full User Guide](Published UG.md)
