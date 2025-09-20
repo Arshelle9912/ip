@@ -37,6 +37,7 @@ public class AddDeadlineCommand implements Command {
     @Override
     public boolean execute(TaskList tasks, Ui ui, Storage storage) throws SonOfAntonException {
         Deadline deadline = Deadline.of(desc, byRaw);
+        assert deadline != null : "Deadline.of must return a task";
         tasks.add(deadline);
         ui.showMessage(" Got it. I've added this task:");
         ui.showMessage("   " + deadline.toString());
