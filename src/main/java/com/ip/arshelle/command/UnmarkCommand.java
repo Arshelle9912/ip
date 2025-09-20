@@ -37,11 +37,7 @@ public class UnmarkCommand implements Command {
         ui.showMessage("OK, I've marked this task as not done yet:");
         ui.showMessage(tasks.get(indexOneBased - 1).toString());
         ui.showLine();
-        try {
-            storage.saveTasks(tasks.asList());
-        } catch (Exception ignored) {
-            // ignore as saving is non-critical
-        }
+        CommandUtils.saveQuietly(storage, tasks);
         return true;
     }
 }
